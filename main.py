@@ -1,9 +1,17 @@
 import discord
 import asyncio
 import time
+import os
 
 client = discord.Client()
 version = "Beta 1.0.0"
+
+is_prod = os.environ.get('IS_HEROKU', None)
+if is_prod:
+    token = os.environ.get('TOKEN')
+else:
+    import secreto
+    token = secreto.token
 
 def toint(s):
     try:
@@ -226,4 +234,4 @@ async def on_member_remove(member):
     msg = "{0} saiu do servidor!".format(member.name)
     await client.send_message(channel, msg)
 
-client.run('NDI5NDIxMzMwMDQwMDk0NzIw.DaBZ8A.5rX99nbE7S56hePwXolk4nM1Fsw')
+client.run(token)
